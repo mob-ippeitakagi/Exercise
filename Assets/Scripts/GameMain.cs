@@ -2,10 +2,7 @@
 using System.Collections;
 
 public class GameMain : MonoBehaviour {
-	int playerHP = 150;
-	int playerAttackPower = 15;
-	int enemyHP = 100;
-	int enemyAttackPower = 10;
+
 	bool finishedFlg = false;
 
 	enum State{
@@ -14,6 +11,37 @@ public class GameMain : MonoBehaviour {
 		EnemyAttack,
 		Finish
 	};
+
+	class Player
+	{
+		public int HP = 150;
+		public int AttackPower = 15;
+		public void playerAttack(Enemy e)
+		{
+			int damage = UnityEngine.Random.Range(1, AttackPower + 1);
+			e.HP -= damage;
+			Debug.Log("=== Player Attack! ===");
+			Debug.Log("Damage: " + damage);
+			Debug.Log("EnemyHP: " + e.HP);
+		}
+	}
+
+	class Enemy
+	{
+		public int HP = 100;
+		public int AttackPower = 10;
+		public void enemyAttack(Player p)
+		{
+			int damage = UnityEngine.Random.Range(1, AttackPower + 1);
+			p.HP -= damage;
+			Debug.Log("=== Enemy Attack! ===");
+			Debug.Log("Damage: " + damage);
+			Debug.Log("PlayerHP: " + p.HP);
+		}
+	}
+
+	Player p = new Player ();
+	Enemy e = new Enemy ();
 
 	State state = State.Wait;
 	void Update()
@@ -26,8 +54,8 @@ public class GameMain : MonoBehaviour {
 				}
 				break;
 			case State.PlayerAttack:
-				playerAttack();
-				if (enemyHP <= 0)
+				p.playerAttack(e);
+				if (e.HP <= 0)
 				{
 					state = State.Finish;
 				}
@@ -37,8 +65,8 @@ public class GameMain : MonoBehaviour {
 				}
 				break;
 			case State.EnemyAttack:
-				enemyAttack();
-				if (playerHP <= 0)
+				e.enemyAttack(p);
+				if (p.HP <= 0)
 				{
 					state = State.Finish;
 				}
@@ -50,7 +78,7 @@ public class GameMain : MonoBehaviour {
 			case State.Finish:
 				if (!finishedFlg)
 				{
-					if (enemyHP <= 0)
+					if (e.HP <= 0)
 					{
 						Debug.Log("=== Player Win! ===");
 					}
@@ -63,20 +91,6 @@ public class GameMain : MonoBehaviour {
 				break;
 		}
 	}
-	void playerAttack()
-	{
-		int damage = UnityEngine.Random.Range(1, playerAttackPower + 1);
-		enemyHP -= damage;
-		Debug.Log("=== Player Attack! ===");
-		Debug.Log("Damage: " + damage);
-		Debug.Log("EnemyHP: " + enemyHP);
-	}
-	void enemyAttack()
-	{
-		int damage = UnityEngine.Random.Range(1, enemyAttackPower + 1);
-		playerHP -= damage;
-		Debug.Log("=== Enemy Attack! ===");
-		Debug.Log("Damage: " + damage);
-		Debug.Log("PlayerHP: " + playerHP);
-	}
+
+
 }
