@@ -8,40 +8,47 @@ public class GameMain : MonoBehaviour {
 	int enemyAttackPower = 10;
 	bool finishedFlg = false;
 
-	string state = "wait";
+	enum State{
+		wait,
+		playerAttack,
+		enemyAttack,
+		finish
+	};
+
+	State state = State.wait;
 	void Update()
 	{
 		switch (state)
 		{
-			case "wait":
+			case State.wait:
 				if (Input.GetMouseButtonDown(0))
 				{
-					state = "playerAttack";
+					state = State.playerAttack;
 				}
 				break;
-			case "playerAttack":
+			case State.playerAttack:
 				playerAttack();
 				if (enemyHP <= 0)
 				{
-					state = "finish";
+					state = State.finish;
 				}
 				else
 				{
-					state = "enemyAttack";
+					state = State.enemyAttack;
 				}
 				break;
-			case "enemyAttack":
+			case State.enemyAttack:
 				enemyAttack();
 				if (playerHP <= 0)
 				{
-					state = "finish";
+					state = State.finish;
 				}
 				else
 				{
-					state = "wait";
+					state = State.wait;
 				}
 				break;
-			case "finish":
+			case State.finish:
 				if (!finishedFlg)
 				{
 					if (enemyHP <= 0)
