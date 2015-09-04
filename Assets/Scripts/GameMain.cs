@@ -19,10 +19,10 @@ public class GameMain : MonoBehaviour {
 
 	void Awake(){
 		for (int i=0; i<2; i++) {
-			this.playerlist.Add (new Player (100 * (i+1), 15 * i));		//playerlistにplayer情報を代入
+			this.playerlist.Add (new Player (100 * (i+1), 15 * (i+1)));		//playerlistにplayer情報を代入
 		}
 		for (int i=0; i<2; i++) {
-			this.enemylist.Add (new Enemy (70 * (i+1), 7 * i));
+			this.enemylist.Add (new Enemy (70 * (i+1), 7 * (i+1)));
 		}
 	}
 
