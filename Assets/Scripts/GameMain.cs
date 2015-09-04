@@ -46,12 +46,10 @@ public class GameMain : MonoBehaviour {
 					}
 				}
 			}
+			state = State.Playerwin;
 			foreach (Enemy enemy in enemylist) {
 				if(enemy.HP > 0){
 					state = State.EnemyAttack;
-				}
-				else{
-					state = State.Playerwin;
 				}
 			}
 				break;
@@ -67,12 +65,10 @@ public class GameMain : MonoBehaviour {
 					}
 				}
 			}
+			state = State.Playerlose;
 			foreach (Player player in playerlist) {
 				if(player.HP > 0){
 					state = State.Wait;
-				}
-				else{
-					state = State.Playerlose;
 				}
 			}
 			break;
