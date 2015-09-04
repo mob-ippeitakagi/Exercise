@@ -18,12 +18,10 @@ public class GameMain : MonoBehaviour {
 	List<Enemy> enemylist =new List<Enemy>();
 
 	void Awake(){
-		for (int i=0; i<2; i++) {
-			this.playerlist.Add (new Player (100 * (i+1), 15 * (i+1)));		//playerlistにplayer情報を代入
-		}
-		for (int i=0; i<2; i++) {
-			this.enemylist.Add (new Enemy (70 * (i+1), 7 * (i+1)));
-		}
+		this.playerlist.Add (new Player ("player1",100,15));		//playerlistにplayer情報を代入
+		this.playerlist.Add (new Player ("player2",120,10));
+		this.enemylist.Add (new Enemy ("enemy1",50,10));
+		this.enemylist.Add (new Enemy ("enemy2",70,7));
 	}
 
 	void Update()
@@ -40,7 +38,7 @@ public class GameMain : MonoBehaviour {
 				foreach (Enemy enemy in enemylist) {
 					if(player.HP > 0){
 						if (enemy.HP > 0) {	//enemyが生きているかどうか
-							player.playerAttack (playerlist.IndexOf(player)+1,enemy,enemylist.IndexOf(enemy)+1);
+							player.playerAttack (player.NAME,enemy,enemy.NAME);
 							break;
 						}
 					}
@@ -59,7 +57,7 @@ public class GameMain : MonoBehaviour {
 				foreach (Player player in playerlist) {
 					if(enemy.HP > 0){
 						if (player.HP > 0) {
-							enemy.enemyAttack (enemylist.IndexOf(enemy)+1,player,playerlist.IndexOf(player)+1);
+							enemy.enemyAttack (enemy.NAME,player,player.NAME);
 							break;
 						}
 					}

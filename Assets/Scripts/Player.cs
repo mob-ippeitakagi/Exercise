@@ -3,20 +3,22 @@ using UnityEngine;
 
 class Player
 {
+	public string NAME;
 	public int HP;
 	public int AttackPower;
 
-	public Player(int hp ,int attack){
+	public Player(string name,int hp ,int attack){
+		NAME = name;
 		HP = hp;
 		AttackPower = attack;
 	}
 
-	public void playerAttack(int playernum,Enemy e,int enemynum)
+	public void playerAttack(string playername,Enemy e,string enemyname)
 	{
 		int damage = UnityEngine.Random.Range(1, AttackPower + 1);
 		e.HP -= damage;
-		Debug.Log("=== Player" + playernum + " Attack! ===");
+		Debug.Log("=== " + playername + " Attack! ===");
 		Debug.Log("Damage: " + damage);
-		Debug.Log("Enemy" + enemynum + "HP: " + e.HP);
+		Debug.Log(enemyname + "HP: " + e.HP);
 	}
 }
