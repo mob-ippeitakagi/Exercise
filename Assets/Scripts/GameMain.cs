@@ -1,96 +1,94 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameMain : MonoBehaviour {
-
-	bool finishedFlg = false;
 
 	enum State{
 		Wait,
 		PlayerAttack,
 		EnemyAttack,
-		Finish
+		Playerwin,
+		Playerlose
 	};
 
-	class Player
-	{
-		public int HP = 150;
-		public int AttackPower = 15;
-		public void playerAttack(Enemy e)
-		{
-			int damage = UnityEngine.Random.Range(1, AttackPower + 1);
-			e.HP -= damage;
-			Debug.Log("=== Player Attack! ===");
-			Debug.Log("Damage: " + damage);
-			Debug.Log("EnemyHP: " + e.HP);
-		}
-	}
-
-	class Enemy
-	{
-		public int HP = 100;
-		public int AttackPower = 10;
-		public void enemyAttack(Player p)
-		{
-			int damage = UnityEngine.Random.Range(1, AttackPower + 1);
-			p.HP -= damage;
-			Debug.Log("=== Enemy Attack! ===");
-			Debug.Log("Damage: " + damage);
-			Debug.Log("PlayerHP: " + p.HP);
-		}
-	}
-
-	Player p = new Player ();
-	Enemy e = new Enemy ();
-
 	State state = State.Wait;
+	List<Player> playerlist =new List<Player>();	//Playerクラスのリストを作成しplayerlistに格納
+	List<Enemy> enemylist =new List<Enemy>();
+
+	void Awake(){
+		for (int i=0; i<2; i++) {
+			this.playerlist.Add (new Player (100 * (i+1), 15 * i));		//playerlistにplayer情報を代入
+		}
+		for (int i=0; i<2; i++) {
+			this.enemylist.Add (new Enemy (70 * (i+1), 7 * i));
+		}
+	}
+
 	void Update()
 	{
 		switch (state)
 		{
 			case State.Wait:
-				if (Input.GetMouseButtonDown(0))				{
+				if (Input.GetMouseButtonDown(0))
+				{
 					state = State.PlayerAttack;
 				}
 				break;
 			case State.PlayerAttack:
-				p.playerAttack(e);
-				if (e.HP <= 0)
-				{
-					state = State.Finish;
+				foreach(Player player in playerlist){
+					foreach(Enemy enemy in enemylist){
+						if(enemy.HP>0){	//enemyのHPが0以上かどうか
+							player.playerAttack(enemy);
+							break;
+						}
+					}
 				}
-				else
-				{
-					state = State.EnemyAttack;
+			bool win=true;
+			foreach(Enemy enemy in enemylist){
+				if(enemy.HP>0){
+					win=false;
+					break;
 				}
+			}
+			if(win){
+				state=State.Playerwin;
+			}
+			else{
+				state = State.EnemyAttack;
+			}
 				break;
 			case State.EnemyAttack:
-				e.enemyAttack(p);
-				if (p.HP <= 0)
-				{
-					state = State.Finish;
-				}
-				else
-				{
-					state = State.Wait;
-				}
-				break;
-			case State.Finish:
-				if (!finishedFlg)
-				{
-					if (e.HP <= 0)
-					{
-						Debug.Log("=== Player Win! ===");
+				foreach(Enemy enemy in enemylist){
+					foreach(Player player in playerlist){
+						if(player.HP>0){
+							enemy.enemyAttack(player);
+							break;
+						}
 					}
-					else
-					{
-						Debug.Log("=== Player Lose... ===");
-					}
-					finishedFlg = true;
 				}
+			bool lose = true;
+			foreach(Player player in playerlist){
+				if(player.HP>0){
+					lose=true;
+					break;
+				}
+			}
+			if(lose){
+				state=State.Playerlose;
+			}
+			else{
+				state=State.Wait;
+			}
+			state = State.Wait;
 				break;
+			case State.Playerwin:
+					Debug.Log("=== Player Win! ===");
+				break;
+			case State.Playerlose:
+					Debug.Log("=== Player Lose... ===");
+				break;
+			}
+
 		}
 	}
-
-
-}
