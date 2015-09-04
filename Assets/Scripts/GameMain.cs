@@ -29,13 +29,13 @@ public class GameMain : MonoBehaviour {
 	void Update()
 	{
 		switch (state) {
-		case State.Wait:
+			case State.Wait:
 			if (Input.GetMouseButtonDown (0)) {
 				state = State.PlayerAttack;
 			}
-			break;
+				break;
 
-		case State.PlayerAttack:
+			case State.PlayerAttack:
 			foreach (Player player in playerlist) {
 				foreach (Enemy enemy in enemylist) {
 					if(player.HP > 0){
@@ -46,21 +46,17 @@ public class GameMain : MonoBehaviour {
 					}
 				}
 			}
-			bool win = true;
 			foreach (Enemy enemy in enemylist) {
-				if (enemy.HP > 0) {
-					win = false;
-					break;
+				if(enemy.HP > 0){
+					state = State.EnemyAttack;
+				}
+				else{
+					state = State.Playerwin;
 				}
 			}
-			if (win) {
-				state = State.Playerwin;
-			} else {
-				state = State.EnemyAttack;
-			}
-			break;
+				break;
 
-		case State.EnemyAttack:
+			case State.EnemyAttack:
 			foreach (Enemy enemy in enemylist) {
 				foreach (Player player in playerlist) {
 					if(enemy.HP > 0){
@@ -71,32 +67,28 @@ public class GameMain : MonoBehaviour {
 					}
 				}
 			}
-			bool lose = true;
 			foreach (Player player in playerlist) {
-				if (player.HP > 0) {
-					lose = false;
-					break;
+				if(player.HP > 0){
+					state = State.Wait;
+				}
+				else{
+					state = State.Playerlose;
 				}
 			}
-			if (lose) {
-				state = State.Playerlose;
-			} else {
-				state = State.Wait;
-			}
 			break;
 
-		case State.Playerwin:
+			case State.Playerwin:
 			Debug.Log ("=== Player Win! ===");
 			state = State.finish;
-			break;
+				break;
 
-		case State.Playerlose:
+			case State.Playerlose:
 			Debug.Log ("=== Player Lose... ===");
 			state = State.finish;
-			break;
+				break;
 
-		case State.finish:
-			break;
+			case State.finish:
+				break;
 		}
 	}
 }
