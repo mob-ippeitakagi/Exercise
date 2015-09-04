@@ -38,9 +38,11 @@ public class GameMain : MonoBehaviour {
 		case State.PlayerAttack:
 			foreach (Player player in playerlist) {
 				foreach (Enemy enemy in enemylist) {
-					if (enemy.HP > 0) {	//enemyが生きているかどうか
-						player.playerAttack (playerlist.IndexOf(player)+1,enemy,enemylist.IndexOf(enemy)+1);
-						break;
+					if(player.HP > 0){
+						if (enemy.HP > 0) {	//enemyが生きているかどうか
+							player.playerAttack (playerlist.IndexOf(player)+1,enemy,enemylist.IndexOf(enemy)+1);
+							break;
+						}
 					}
 				}
 			}
@@ -61,9 +63,11 @@ public class GameMain : MonoBehaviour {
 		case State.EnemyAttack:
 			foreach (Enemy enemy in enemylist) {
 				foreach (Player player in playerlist) {
-					if (player.HP > 0) {
-						enemy.enemyAttack (enemylist.IndexOf(enemy)+1,player,playerlist.IndexOf(player)+1);
-						break;
+					if(enemy.HP > 0){
+						if (player.HP > 0) {
+							enemy.enemyAttack (enemylist.IndexOf(enemy)+1,player,playerlist.IndexOf(player)+1);
+							break;
+						}
 					}
 				}
 			}
