@@ -39,7 +39,7 @@ public class GameMain : MonoBehaviour {
 			foreach (Player player in playerlist) {
 				foreach (Enemy enemy in enemylist) {
 					if (enemy.HP > 0) {	//enemyが生きているかどうか
-						player.playerAttack (enemy);
+						player.playerAttack (playerlist.IndexOf(player)+1,enemy,enemylist.IndexOf(enemy)+1);
 						break;
 					}
 				}
@@ -62,7 +62,7 @@ public class GameMain : MonoBehaviour {
 			foreach (Enemy enemy in enemylist) {
 				foreach (Player player in playerlist) {
 					if (player.HP > 0) {
-						enemy.enemyAttack (player);
+						enemy.enemyAttack (enemylist.IndexOf(enemy)+1,player,playerlist.IndexOf(player)+1);
 						break;
 					}
 				}

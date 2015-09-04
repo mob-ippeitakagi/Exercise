@@ -11,12 +11,12 @@ class Player
 		AttackPower = attack;
 	}
 
-	public void playerAttack(Enemy e)
+	public void playerAttack(int playernum,Enemy e,int enemynum)
 	{
 		int damage = UnityEngine.Random.Range(1, AttackPower + 1);
 		e.HP -= damage;
-		Debug.Log("=== Player Attack! ===");
+		Debug.Log("=== Player" + playernum + " Attack! ===");
 		Debug.Log("Damage: " + damage);
-		Debug.Log("EnemyHP: " + e.HP);
+		Debug.Log("Enemy" + enemynum + "HP: " + e.HP);
 	}
 }
