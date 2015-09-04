@@ -38,7 +38,7 @@ public class GameMain : MonoBehaviour {
 				foreach (Enemy enemy in enemylist) {
 					if(player.HP > 0){
 						if (enemy.HP > 0) {	//enemyが生きているかどうか
-							player.playerAttack (player.NAME,enemy,enemy.NAME);
+							player.playerAttack (enemy);
 							break;
 						}
 					}
@@ -57,7 +57,7 @@ public class GameMain : MonoBehaviour {
 				foreach (Player player in playerlist) {
 					if(enemy.HP > 0){
 						if (player.HP > 0) {
-							enemy.enemyAttack (enemy.NAME,player,player.NAME);
+							enemy.enemyAttack (player);
 							break;
 						}
 					}

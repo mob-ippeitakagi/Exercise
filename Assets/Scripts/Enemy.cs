@@ -13,12 +13,12 @@ class Enemy
 		AttackPower = attack;
 	}
 
-	public void enemyAttack(string enemyname,Player p,string playername)
+	public void enemyAttack(Player p)
 	{
 		int damage = UnityEngine.Random.Range(1, AttackPower + 1);
 		p.HP -= damage;
-		Debug.Log("=== " + enemyname + " Attack! ===");
+		Debug.Log("=== " + NAME + " Attack! ===");
 		Debug.Log("Damage: " + damage);
-		Debug.Log(playername + "HP: " + p.HP);
+		Debug.Log(p.NAME + "HP: " + p.HP);
 	}
 }
