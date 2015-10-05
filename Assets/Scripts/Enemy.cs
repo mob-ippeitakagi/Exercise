@@ -1,24 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-class Enemy
+class Enemy : Charactor
 {
-	public string NAME;
-	public int HP;
-	public int AttackPower;
-
-	public Enemy(string name,int hp,int attack){
-		NAME = name;
-		HP = hp;
-		AttackPower = attack;
-	}
-
-	public void enemyAttack(Player p)
+	public int Turnbase;
+	public int Turn;
+	public Enemy(string name,int hp,int attack,string attribute,int turn) : base(name,hp,attack,attribute)
 	{
-		int damage = UnityEngine.Random.Range(1, AttackPower + 1);
-		p.HP -= damage;
-		Debug.Log("=== " + NAME + " Attack! ===");
-		Debug.Log("Damage: " + damage);
-		Debug.Log(p.NAME + "HP: " + p.HP);
+		Turnbase = turn;
+		Turn = turn;
+	}
+	public override void Attack(Charactor player){
+		base.Attack (player);
+		if (Turn == 0) {
+			Debug.Log (NAME + " ターンリセット");
+			Turn = Turnbase;
+		}
 	}
 }

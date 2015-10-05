@@ -13,15 +13,16 @@ public class GameMain : MonoBehaviour {
 		finish
 	};
 
+	int turn=1;
 	State state = State.Wait;
 	List<Player> playerlist =new List<Player>();	//Playerクラスのリストを作成しplayerlistに格納
 	List<Enemy> enemylist =new List<Enemy>();
 
 	void Awake(){
-		this.playerlist.Add (new Player ("player1",100,15));		//playerlistにplayer情報を代入
-		this.playerlist.Add (new Player ("player2",120,10));
-		this.enemylist.Add (new Enemy ("enemy1",50,10));
-		this.enemylist.Add (new Enemy ("enemy2",70,7));
+		this.playerlist.Add (new Player ("player1",100,15,"red"));		//playerlistにplayer情報を代入
+		this.playerlist.Add (new Player ("player2",120,10,"blue"));
+		this.enemylist.Add (new Enemy ("enemy1",50,10,"green",1));
+		this.enemylist.Add (new Enemy ("enemy2",70,7,"red",2));
 	}
 
 	void Update()
@@ -34,11 +35,13 @@ public class GameMain : MonoBehaviour {
 				break;
 
 			case State.PlayerAttack:
+			Debug.Log(turn + "ターン目");
+			turn++;
 			foreach (Player player in playerlist) {
 				foreach (Enemy enemy in enemylist) {
 					if(player.HP > 0){
 						if (enemy.HP > 0) {	//enemyが生きているかどうか
-							player.playerAttack (enemy);
+							player.Attack (enemy);
 							break;
 						}
 					}
@@ -54,13 +57,19 @@ public class GameMain : MonoBehaviour {
 
 			case State.EnemyAttack:
 			foreach (Enemy enemy in enemylist) {
-				foreach (Player player in playerlist) {
-					if(enemy.HP > 0){
-						if (player.HP > 0) {
-							enemy.enemyAttack (player);
-							break;
+				if(enemy.Turn == 0){
+					foreach (Player player in playerlist) {
+						if(enemy.HP > 0){
+							if (player.HP > 0) {
+								enemy.Attack (player);
+								break;
+							}
 						}
 					}
+				}
+				else{
+					Debug.Log("=== "+enemy.NAME+" あと"+enemy.Turn+"ターンで攻撃 ===");
+					enemy.Turn--;
 				}
 			}
 			state = State.Playerlose;
