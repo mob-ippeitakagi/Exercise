@@ -7,7 +7,6 @@ class Charactor
 	public int HP;
 	public int AttackPower;
 	public string Attribute;
-	public float rate;
 
 	public Charactor(string name,int hp,int attack,string attribute){
 		NAME = name;
@@ -21,7 +20,7 @@ class Charactor
 		int damage = UnityEngine.Random.Range (1, AttackPower + 1);
 		Debug.Log ("=== " + NAME + " Attack! ===");
 
-		Hantei (charactor);
+		float rate = Hantei (charactor);
 		damage = (int)(Mathf.Max(damage,1) * rate);
 		if (rate == 2f) {
 			Debug.Log ("ダメージ2倍");
@@ -33,6 +32,7 @@ class Charactor
 		Debug.Log (charactor.NAME + "HP: " + charactor.HP);
 	}
 	float Hantei(Charactor charactor){
+		float rate;
 		if (Attribute == "red") {
 			if (charactor.Attribute == "green") {
 				rate = 2f;
